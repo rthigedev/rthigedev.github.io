@@ -1,0 +1,10 @@
+---
+---
+
+@import "{{ site.theme }}";
+header h1::before {
+  content: "";
+}
+#downloads .btn {
+  display: none;
+}
