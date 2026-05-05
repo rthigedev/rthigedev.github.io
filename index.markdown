@@ -2,7 +2,58 @@
 layout: default
 ---
 
-<h1>雑談</h1>
+# 雑談
+
+## 2026-05-05
+
+### 【Nvidiaドライバ再インストールメモ】
+
+注意：
+新しいバージョンを使う場合は、Ubuntuのバージョンをoemでなくgenericにすること。
+（ 「$ uname -r」で確認）
+
+#### 1. 今入っているバージョンを削除
+
+```bash
+$ sudo apt --purge remove -y nvidia-*
+$ sudo apt --purge remove -y cuda-*
+$ sudo apt --purge remove -y libcudnn*
+$ sudo apt --purge remove -y cudnn-*
+$ sudo apt autoremove -y
+```
+
+#### 2. Nvidia公式サイトの手順で途中までインストール
+
+[CUDA Toolkit Archive](https://developer.nvidia.com/cuda-toolkit-archive)
+
+*   必要なバージョンを選択（基本は最新バージョン）。
+*   選択は「Linux」「x86_64」「Ubuntu」「24.04」「deb(network)」にする。
+*   すると、「> CUDA Toolkit Installer」にインストール用のコマンドが表示されるので、「`$ sudo apt-get update`」まで実行する。
+    *   ※最後の「`$ sudo apt-get -y install cuda-toolkit-13-2`」はここでは実行しない。
+
+#### 3. Nvidiaドライバのインストール
+
+ここで、Nvidiaドライバのインストールを行う。
+ドライバのバージョンを、cuda-toolkitの対応バージョンに合わせる。
+対応バージョンはここ⇒
+[CUDA Toolkit Release Notes](https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html)
+
+Ubuntu上で「`$ ubuntu-drivers devices`」を実行し、「recommended」になっているものを確認。
+インストールは「`$ sudo apt install nvidia-driver-595`」など。
+その後、rebootする。
+
+#### 4. cuda-toolkitをインストール
+
+2.の続きの「`$ sudo apt-get -y install cuda-toolkit-13-2`」を実行する。
+
+.bashに以下の環境変数を追加する。
+
+```bash
+# CUDA Toolkit
+export PATH="/usr/local/cuda/bin:$PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+```
+
 
 <h2>2026-05-01</h2>
 <p>
