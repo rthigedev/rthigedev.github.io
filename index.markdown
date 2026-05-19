@@ -4,6 +4,81 @@ layout: default
 
 # 雑談
 
+## 2026-05-19
+
+### 【Claude CodeのCLI版をWindows11にインストールしてローカルLLMで使う方法】
+
+2025年7月にWindows11のネイティブ版がリリースされたので、それを使う。
+（ただし、ネイティブ版といっても内部的には完全なネイティブではないが、
+公式はネイティブ版の方を推奨しているので、こちらを使うことにする）
+
+ローカルLLMは、Anthropic互換APIを持っている必要がある。
+（Ollamaとかllama-serverとか）
+
+#### やり方
+
+1. 先に、Git for Windowsをインストールする。
+（Git Bushを使っているためらしい）
+2. PowerShellで、以下のコマンドでインストールする。
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+3. 環境変数PATHに "~/.local/bin" が追加されていることを確認する。
+（もしなかったら追加する）
+4. 一応、インストール確認しておく。
+```powershell
+claude --version
+```
+5. ローカルLLMを使うように環境変数を設定する。
+（↓の設定はllama-serverの例。
+OllamaはANTHROPIC_MODELも必要かも。
+このやり方はセッション限定だが、
+「環境変数の編集」とかで恒久的に設定した方がいいかも）
+```powershell
+$env:ANTHROPIC_AUTH_TOKEN="dummy"
+$env:ANTHROPIC_BASE_URL="http://＜ホスト＞:＜ポート＞"
+```
+ここがうまくできていれば、
+Claude Code起動時に「金払え」的な表示が出ずに、すぐ使えるようになる。
+
+### 【VS Code + Claude Code拡張でローカルLLMを使う方法】
+
+Ollamaやllama-serverはAnthropic互換APIを持っているので、
+Claude Codeで使える。
+
+#### やり方
+
+1. Claude Code拡張を入れる。
+2. settings.jsonに以下を追加。
+（これはllama-serverの例。
+Ollamaはモデルが"gpt-oss:20b"とかになるのかも？）
+```json
+    "claudeCode.environmentVariables": [
+        {
+            "name": "ANTHROPIC_BASE_URL",
+            "value": "http://＜ホスト＞:＜ポート＞"
+        },
+        {
+            "name": "ANTHROPIC_AUTH_TOKEN",
+            "value": "dummy"
+        },
+        {
+            "name": "ANTHROPIC_MODEL",
+            "value": "gpt-oss-20b-Q4_K_M.gguf"
+        }
+    ]
+```
+モデル名は
+"curl http://＜ホスト＞:＜ポート＞/v1/models"
+で調べる事ができる。
+3. Claude Codeでオートコンプリートとインライン検証をしたい場合は、以下を追加する。（らしい）
+詳しくは、公式サイトのドキュメントを参照のこと。
+```json
+"$schema": "https://json.schemastore.org/claude-code-settings.json",
+```
+公式サイトのドキュメント：
+https://code.claude.com/docs/ja/settings
+
 ## 2026-05-17
 
 ### AIコーディング業界
