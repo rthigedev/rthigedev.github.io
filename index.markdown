@@ -327,4 +327,7 @@ Xbox360時代は珍しさや最先端な感じもあってこのジャンルを�
 スト6はシステム的に、道着キャラのゲームのような気がする。
 </p>
 
-<p><br><a href="{{ site.baseurl }}/past.html">過去の記事を見る</a></p>
+<p><br>
+<a href="{{ site.baseurl }}/past_202604.html">2026年4月の過去の記事を見る</a><br>
+<a href="{{ site.baseurl }}/past_before_202604.html">2026年3月以前の過去の記事を見る</a>
+</p>
